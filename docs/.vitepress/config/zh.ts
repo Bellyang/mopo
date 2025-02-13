@@ -9,7 +9,7 @@ export const zh = defineConfig({
       text: '在 GitHub 上编辑此页面',
     },
     nav: [
-      { text: '首页', link: '/zh/Index' },
+      { text: '首页', link: '/zh/index' },
       { text: '📖 指引', link: '/zh/guide/Introduction', activeMatch: '/zh/guide/' },
       { text: '🛠️ 配置', link: '/zh/config/project', activeMatch: '/zh/config/' },
     ],
