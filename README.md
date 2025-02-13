@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/Bellyang/mopo/blob/master/docs/public/mopo.png" alt="mopo-logo" width="400" style="max-width: 100%;">
+  <img src="https://github.com/Bellyang/mopo/blob/master/docs/public/mopo.png" alt="mopo-logo" width="300" style="max-width: 100%;">
 </div>
 
 # Mopo
