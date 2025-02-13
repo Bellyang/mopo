@@ -30,11 +30,11 @@ elif [ -f "${BASE_PATH}/index.mjs" ]; then
   CONFIG_FILE="${BASE_PATH}/index.mjs"
   TMP_FILE=$(mktemp)
   cat > "$TMP_FILE" << EOF
-  import loadConfig from '${BASE_PATH}/index.mjs';
+  import * as configModule from '${BASE_PATH}/index.mjs';
 
   async function main() {
     try {
-      const config = await loadConfig();
+      const loadConfig = configModule.default || configModule.loadConfig;
       if (!config) {
         console.error('No config found');
         process.exit(1);
