@@ -2,6 +2,10 @@
 
 The vite package provides project building and development server functionality based on Vite, serving as a modern build tool option.
 
+## Docs
+
+[vite](https://mopo-cli.vercel.app/extensions/vite)
+
 ## Core Features
 
 1. **Build Features**
