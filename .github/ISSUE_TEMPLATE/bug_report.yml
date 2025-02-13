@@ -13,7 +13,7 @@ body:
       options:
         - label: I am using the **latest version**
           required: true
-        - label: I have searched [Docs](https://mopo-coral.vercel.app/)
+        - label: I have searched [Docs](https://mopo-cli.vercel.app/)
           required: true
 
   - type: input

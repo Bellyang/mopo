@@ -45,7 +45,7 @@ mopo -h  # Show help
 
 ## 📄 Docs
 
-Docs are available at [https://mopo-coral.vercel.app/](https://mopo-coral.vercel.app/) - we are still working on refining it and contributions are welcome!
+Docs are available at [https://mopo-cli.vercel.app/](https://mopo-cli.vercel.app/) - we are still working on refining it and contributions are welcome!
 
 ## LICENSE
 
