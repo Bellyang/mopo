@@ -6,7 +6,7 @@
 
 Monorepo base, highly customizable, suitable for the entire process of creating, developing, testing, and deploying cli tools.
 
-![image](https://github.com/Bellyang/mopo/blob/main/docs/public/present.gif)
+![image](https://github.com/Bellyang/mopo/blob/master/docs/public/present.gif)
 
 ## ✨ Features
 
