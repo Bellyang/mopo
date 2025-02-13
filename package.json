@@ -1,0 +1,55 @@
+{
+  "private": true,
+  "packageManager": "pnpm@9.9.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "description": "Monorepo base, highly customizable, suitable for the entire process of creating, developing, testing, and deploying cli tools.",
+  "author": "BellYang <blackstonelian@gmail.com> (https://github.com/Bellyang)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bellyang/mopo"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Bellyang/mopo/issues"
+  },
+  "keywords": [
+    "monorepo",
+    "cli",
+    "vue",
+    "react",
+    "boilerplate",
+    "webpack",
+    "vite"
+  ],
+  "scripts": {
+    "dev": "tsup --config ./scripts/tsup.config.ts --watch",
+    "build": "tsup --config ./scripts/tsup.config.ts",
+    "types": "tsup --config ./scripts/tsup.config.ts --dts-only",
+    "docs:build": "pnpm -C docs run docs:build",
+    "docs:dev": "pnpm -C docs docs:dev",
+    "docs:preview": "pnpm -C docs docs:preview",
+    "lint": "eslint -c ./.config/eslint.config.mjs ./packages ./docs",
+    "lint:fix": "eslint --fix -c ./.config/eslint.config.mjs ./packages ./docs"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.2.0",
+    "@changesets/cli": "^2.27.12",
+    "@swc/core": "^1.9.3",
+    "@types/fs-extra": "^11.0.4",
+    "@types/ip": "^1.1.3",
+    "@types/node": "^18.13.0",
+    "esbuild-plugin-copy": "^2.1.1",
+    "esbuild-plugin-node-externals": "^1.0.1",
+    "eslint": "^9.20.1",
+    "fast-glob": "^3.2.12",
+    "fs-extra": "^11.2.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.6.3",
+    "lint-staged": "13.1.2"
+  },
+  "dependencies": {
+    "vitest": "^2.1.8"
+  }
+}

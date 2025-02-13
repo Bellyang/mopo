@@ -1,0 +1,5 @@
+packages:
+  - "docs"
+  - 'packages/*!(plugins)'
+  - 'packages/plugins/*'
+  - '!**/test/**'

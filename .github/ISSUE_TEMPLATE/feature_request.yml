@@ -1,0 +1,32 @@
+name: Feature Request
+description: Submit a feature request to Mopo
+title: "[Feature] "
+labels: []
+body:
+- type: markdown
+  id: note
+  attributes:
+    value: |
+      Before making a feature request, please read the documentation carefully to see if it has been implemented.
+      
+      If report bugs, please select bug template.
+
+- type: textarea
+  id: description
+  attributes:
+    label: 💭 Describe the feature
+    description: |
+      Describe what features need to be implemented.
+
+  validations:
+    required: true
+
+- type: textarea
+  id: implement
+  attributes:
+    label: 💡 Proposed Solution
+    description: "Describe a clear and concise description of what you want to happen.\nIf possible, please provide relevant screenshots or videos."
+    placeholder: "Describe a clear and concise description of what you want to happen."
+
+  validations:
+    required: true

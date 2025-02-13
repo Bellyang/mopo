@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "target": "es5",
+    "module": "commonjs",
+    "outDir": "dist/cjs"
+  },
+  "references": [
+    { "path": "../shared/tsconfig.cjs.json" }
+  ],
+  "include": ["**/*.ts"],
+  "exclude": ["./templates/**/*"]
+}

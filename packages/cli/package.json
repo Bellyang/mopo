@@ -1,0 +1,50 @@
+{
+  "name": "@mopo/cli",
+  "version": "1.0.0",
+  "description": "Command line interface for monorepo development",
+  "author": "Bell Yang",
+  "license": "MIT",
+  "keywords": [
+    "cli",
+    "monorepo",
+    "webpack",
+    "vite",
+    "vue",
+    "react",
+    "typescript"
+  ],
+  "types": "./dist/cjs/index.d.ts",
+  "bin": {
+    "mopo": "./dist/cjs/mopo.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^5.3.8",
+    "@mopo/boilerplate": "workspace:*",
+    "@mopo/settings": "workspace:*",
+    "@mopo/shared": "workspace:*",
+    "@mopo/vite": "workspace:*",
+    "@mopo/webpack": "workspace:*",
+    "await-to-js": "^3.0.0",
+    "chalk": "^4.1.2",
+    "commander": "^12.1.0",
+    "execa": "^9.5.2",
+    "fs-extra": "^11.2.0",
+    "gitlog": "^5.1.0",
+    "inquirer": "^10.2.0",
+    "leven": "^3.1.0",
+    "minimist": "^1.2.8",
+    "semver": "^7.6.3",
+    "validate-npm-package-name": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/minimist": "^1.2.5",
+    "@types/semver": "^7.5.8",
+    "@types/validate-npm-package-name": "^4.0.2"
+  }
+}

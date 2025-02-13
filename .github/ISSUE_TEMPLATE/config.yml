@@ -1,0 +1,7 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: Need Help
+    url: https://github.com/Bellyang/mopo/discussions/new
+    about: Please ask questions in Discussion.
+  

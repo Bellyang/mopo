@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "declarationDir": "dist/types",
+    "outDir": "dist/esm"
+  },
+  "references": [
+    { "path": "../vite/tsconfig.esm.json" },
+    { "path": "../shared/tsconfig.esm.json" },
+    { "path": "../webpack/tsconfig.esm.json" },
+    { "path": "../settings/tsconfig.esm.json" },
+    { "path": "../boilerplate/tsconfig.esm.json" }
+  ],
+  "include": ["**/*.ts"],
+  "exclude": ["./boilerplate/**/*"]
+}

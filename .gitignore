@@ -1,0 +1,29 @@
+# IDEs
+.idea
+.vscode
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Docs
+sitemap.xml
+urls.txt
+.note
+.temp
+docs/.vitepress/cache
+
+# Dependency directories
+node_modules/
+
+# Output of 'npm pack'
+*.tgz
+
+dist
+
+# MacOs cache
+.DS_Store

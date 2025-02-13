@@ -1,0 +1,152 @@
+#!/bin/sh
+set -e
+
+SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+. "${SCRIPT_DIR}/_local-hook-exec.sh"
+. "${SCRIPT_DIR}/_find-root.sh"
+. "${SCRIPT_DIR}/_glob-base.sh"
+. "${SCRIPT_DIR}/_get-configs.sh"
+
+GIT_MSG_FILE="$1"
+COMMIT_SOURCE="$2"
+# Get git commit message
+MSG=$(cat "$GIT_MSG_FILE")
+
+WORKSPACE_RESULT=$(find_root "$(pwd)")
+exit_code=$?
+if [[ $? -ne 0 ]]; then
+  echo -e "${RED}Error: Cannot find workspace root"
+  exit 1
+fi
+
+# Check required tools
+if [ ! -f "$CZG" ]; then
+  echo -e "${RED}Error: czg not found at $CZG"
+  exit 1
+fi
+if [ ! -f "$LINT_STAGED" ]; then
+  echo -e "${RED}Error: lint-staged not found at $LINT_STAGED"
+  exit 1
+fi
+
+# Check if git message file exist
+if [ ! -f "$GIT_MSG_FILE" ]; then
+    echo -e "${RED}Error: git message file not found."
+    exit 1
+fi
+
+WORKSPACE_ROOT=$(echo "$WORKSPACE_RESULT" | sed -n '1p')
+GLOBS=$(echo "$WORKSPACE_RESULT" | sed '1,/---WORKSPACE_GLOBS---/d')
+
+WORKSPACE_PATHS=$(echo "$GLOBS" | while IFS= read -r glob; do
+	if [ ! -z "$glob" ]; then
+		base=$(glob_base "$glob" | grep '"base":' | sed 's/.*"base":[[:space:]]*"\([^"]*\)".*/\1/' | tr -d "'")
+		if [ "$base" != "." ]; then
+			echo "$base"
+		fi
+	fi
+done)
+
+if echo "$MSG" | grep -Eq "^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\(@?[@/[:alnum:]-]+(,\s*@?[@/[:alnum:]-]+)*\))?!?: |^Merge |^Initial commit$"; then
+  MATCH=$(echo "$MSG" | grep -oE "\(([^)]+)\)" | tr -d '()')
+  if [ -n "$MATCH" ]; then
+    if [ "$MATCH" != overall ]; then
+      # check if workspace exit
+      if [ -z "$WORKSPACE_ROOT" ]; then
+        echo -e "${RED}Error: Cannot find workspace root"
+        exit 1
+      fi
+
+      # create a tmp file to validate
+      TEMP_FILE=$(mktemp)
+      trap 'rm -f "$TEMP_FILE"' EXIT
+
+      # initial valid status
+      echo "0" > "$TEMP_FILE"
+
+      # split and valid every scope
+      echo "$MATCH" | tr ',' '\n' | while IFS= read -r scope; do
+        # wipe space
+        scope=$(echo "$scope" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+        # check if scope in workspce
+        scope_found=false
+        while IFS= read -r workspace_path; do
+          if [ -n "$WORKSPACE_PATHS" ]; then
+            PACKAGE_PATH="${WORKSPACE_ROOT}/${WORKSPACE_PATHS}"
+            if [ -d "$PACKAGE_PATH" ]; then
+              # Loop through each direct subdirectory in PACKAGE_PATH
+              for subdir in "$PACKAGE_PATH"/*/; do
+                if [ -f "${subdir}package.json" ]; then
+                  # Use Node's fs module to read package.json and handle Windows paths
+                  PACKAGE_JSON_PATH=$(readlink -f "${subdir}package.json")
+                  PACKAGE_NAME=$(node -e "
+                    const fs = require('fs');
+                    const path = require('path');
+                    const filePath = path.normalize('${PACKAGE_JSON_PATH}'.replace(/^\\/f\\//, 'F:\\\\'));
+                    console.log(JSON.parse(fs.readFileSync(filePath, 'utf8')).name)
+                  ")
+                  if [ "$PACKAGE_NAME" = "$scope" ]; then
+										scope_found=true
+                    PACKAGE="${subdir}"
+                    NORMALIZED_PATH=$(node -e "
+                      const path = require('path');
+                      const p = '$PACKAGE'.replace(/^\\/f\\//i, 'F:\\\\');
+                      console.log(path.resolve(p));
+                    ")
+                    npx "$LINT_STAGED" -c "$LINT_STAGED_CONFIG" --cwd "${NORMALIZED_PATH}"
+                    if [ $? -ne 0 ]; then
+                      echo "1" > "$TEMP_FILE"
+                      break 2
+                    fi
+                  fi
+                else
+                  echo -e "${RED}Error: package.json not found in $subdir"
+                  echo "1" > "$TEMP_FILE"
+                  break 2
+                fi
+              done
+            else
+              echo -e "${RED}Error: Package directory not found: $PACKAGE_PATH"
+              echo "1" > "$TEMP_FILE"
+              break 2
+            fi
+          fi
+        done <<< "$WORKSPACE_PATHS"
+
+        if [ "$scope_found" = false ]; then
+          echo -e "${RED}Error: Invalid scope: $scope"
+          break
+        fi
+      done
+
+      # check the result
+      if [ "$(cat "$TEMP_FILE")" = "1" ]; then
+        exit 1
+      fi
+    fi
+  fi
+else
+  echo -e "${RED}Error: Invalid commit message format"
+  echo -e "${RED}Expected format: type(scope): subject or type(scope, scope): subject"
+  echo -e "${RED}Valid types: build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test"
+  exit 1
+fi
+
+# If there is a merge in git pull, $2 will output stdin merge
+# If git commit is executed without parameters, $2 will output template
+# If git commit -m or npx czg is used, $2 will output message
+case "$COMMIT_SOURCE" in
+	template)
+		exit 1
+		;;
+	merge|message)
+		echo ''
+		;;
+	*)
+		if [ -t 0 ]; then
+			exec < /dev/tty && "$CZG" --config "$CZG_CONFIG" || true
+		else
+			echo -e "${YELLOW}Warning: czg cannot be executed in an non-interactive environment."
+		fi
+		;;
+esac

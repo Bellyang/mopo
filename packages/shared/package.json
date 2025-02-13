@@ -1,0 +1,39 @@
+{
+  "name": "@mopo/shared",
+  "version": "1.0.0",
+  "description": "Shared utils for Mopo",
+  "author": "BellYang <blackstonelian@gmail.com> (https://github.com/Bellyang)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bellyang/mopo"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "types": "./dist/cjs/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "await-to-js": "^3.0.0",
+    "chalk": "^4.1.2",
+    "fast-glob": "^3.3.2",
+    "fs-extra": "^11.2.0",
+    "glob": "^11.0.1",
+    "joi": "^17.13.3",
+    "micromatch": "^4.0.8",
+    "ora": "^5.4.1",
+    "pkg-types": "^1.2.1",
+    "yaml": "^2.6.1"
+  },
+  "devDependencies": {
+    "@types/is-file-esm": "^1.0.5",
+    "@types/micromatch": "^4.0.9",
+    "vite": "^6.0.5",
+    "webpack": "^5.94.0"
+  }
+}

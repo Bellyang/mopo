@@ -1,0 +1,36 @@
+{
+  "name": "@mopo/boilerplate",
+  "version": "1.0.0",
+  "description": "Library or framework boilerplate for monorepo",
+  "author": "BellYang <blackstonelian@gmail.com> (https://github.com/Bellyang)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bellyang/Mopo"
+  },
+  "bugs": {
+    "url": "https://github.com/Bellyang/Mopo/issues"
+  },
+  "keywords": [
+    "boilerplate",
+    "vue",
+    "react"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "types": "./dist/cjs/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=v18.0.0"
+  },
+  "dependencies": {
+    "@mopo/shared": "workspace:*"
+  },
+  "devDependencies": {}
+}

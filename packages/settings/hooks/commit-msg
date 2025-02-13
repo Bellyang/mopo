@@ -1,0 +1,22 @@
+#!/bin/sh
+set -e
+
+. "$(dirname "$0")/_local-hook-exec.sh"
+. "${SCRIPT_DIR}/_get-configs.sh"
+
+if [ ! -f "$COMMITLINT" ]; then
+  echo -e "${RED}error: commitlint not found, please install first"
+  exit 1
+fi
+
+if [ ! -f "$COMMITLINT_CONFIG" ]; then
+  echo -e "${RED}Error: commitlint config file not found"
+  exit 1
+fi
+
+npx --no-install "$COMMITLINT" \
+    --edit \
+    --config "$COMMITLINT_CONFIG" \
+    --from HEAD~1 \
+    --to HEAD \
+    --verbose

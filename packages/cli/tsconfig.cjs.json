@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "outDir": "dist/cjs"
+  },
+  "references": [
+    { "path": "../vite/tsconfig.cjs.json" },
+    { "path": "../shared/tsconfig.cjs.json" },
+    { "path": "../webpack/tsconfig.cjs.json" },
+    { "path": "../settings/tsconfig.cjs.json" },
+    { "path": "../boilerplate/tsconfig.cjs.json" }
+  ],
+  "include": ["**/*.ts"],
+  "exclude": ["./boilerplate/**/*"]
+}

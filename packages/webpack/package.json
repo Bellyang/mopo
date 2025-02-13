@@ -1,0 +1,77 @@
+{
+  "name": "@mopo/webpack",
+  "version": "1.0.0",
+  "description": "Webpack bundler for Mopo",
+  "author": "BellYang <blackstonelian@gmail.com> (https://github.com/Bellyang)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bellyang/mopo"
+  },
+  "keywords": [
+    "webpack",
+    "monorepo"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "types": "./dist/cjs/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@babel/core": "^7.26.0",
+    "@mopo/settings": "workspace:*",
+    "@mopo/shared": "workspace:*",
+    "await-to-js": "^3.0.0",
+    "babel-loader": "^9.1.3",
+    "case-sensitive-paths-webpack-plugin": "^2.4.0",
+    "chalk": "^4.1.2",
+    "compression-webpack-plugin": "^11.1.0",
+    "copy-webpack-plugin": "^12.0.2",
+    "core-js": "^3.40.0",
+    "crossorigin-webpack-plugin": "^1.0.0",
+    "css-loader": "^7.1.2",
+    "css-minimizer-webpack-plugin": "^7.0.0",
+    "eslint": "^8.57.1",
+    "eslint-webpack-plugin": "^4.2.0",
+    "fork-ts-checker-webpack-plugin": "^9.0.2",
+    "fs-extra": "^11.2.0",
+    "html-webpack-plugin": "^5.6.0",
+    "ip": "^2.0.1",
+    "mini-css-extract-plugin": "^2.9.1",
+    "ora": "^5.4.1",
+    "portfinder": "^1.0.32",
+    "postcss": "^8.4.49",
+    "postcss-loader": "^8.1.1",
+    "postcss-modules": "^6.0.1",
+    "postcss-scss": "^4.0.9",
+    "sass": "^1.78.0",
+    "sass-loader": "^16.0.1",
+    "sass-resources-loader": "^2.2.5",
+    "speed-measure-webpack-plugin": "^1.5.0",
+    "style-loader": "^4.0.0",
+    "stylelint-webpack-plugin": "^5.0.1",
+    "svg-sprite-loader": "^6.0.11",
+    "terser-webpack-plugin": "^5.3.10",
+    "ts-loader": "^9.5.2",
+    "vue-loader2": "npm:vue-loader@15.9.8",
+    "vue-loader3": "npm:vue-loader@17.4.2",
+    "vue-template-compiler": "~2.6.14",
+    "webpack": "^5.94.0",
+    "webpack-bundle-analyzer": "^4.10.2",
+    "webpack-dev-server": "^5.0.4",
+    "webpack-merge": "^6.0.1",
+    "webpack-mkcert-plugin": "^0.1.1",
+    "workbox-webpack-plugin": "^7.1.0"
+  },
+  "devDependencies": {
+    "@types/case-sensitive-paths-webpack-plugin": "^2.1.9",
+    "@types/friendly-errors-webpack-plugin": "^0.1.7",
+    "@types/speed-measure-webpack-plugin": "^1.3.6",
+    "@types/webpack-bundle-analyzer": "^4.7.0"
+  }
+}

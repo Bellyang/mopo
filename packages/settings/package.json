@@ -1,0 +1,60 @@
+{
+  "name": "@mopo/settings",
+  "version": "1.0.0",
+  "description": "Configuration Management Module",
+  "author": "BellYang <blackstonelian@gmail.com> (https://github.com/Bellyang)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bellyang/mopo"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "types": "./dist/cjs/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@babel/preset-env": "^7.25.4",
+    "@babel/preset-react": "^7.26.3",
+    "@commitlint/cli": "^19.6.0",
+    "@mopo/shared": "workspace:*",
+    "@release-it-plugins/workspaces": "^4.2.0",
+    "@release-it/conventional-changelog": "^9.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.15.0",
+    "@typescript-eslint/parser": "^8.15.0",
+    "await-to-js": "^3.0.0",
+    "chalk": "^4.1.2",
+    "cosmiconfig": "^9.0.0",
+    "cosmiconfig-typescript-loader": "^6.1.0",
+    "czg": "^1.11.0",
+    "eslint": "^8.57.1",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-vue": "^9.31.0",
+    "execa": "^5.1.1",
+    "fs-extra": "^11.2.0",
+    "ip": "^2.0.1",
+    "joi": "^17.13.3",
+    "lint-staged": "^15.2.10",
+    "pkg-types": "^1.2.1",
+    "postcss-html": "^1.7.0",
+    "postcss-modules": "^6.0.1",
+    "postcss-plugin-px2rem": "^0.8.1",
+    "postcss-preset-env": "^10.0.2",
+    "postcss-scss": "^4.0.9",
+    "prettier": "^3.3.3",
+    "release-it": "^17.10.0",
+    "stylelint-config-recommended-vue": "^1.5.0",
+    "stylelint-config-standard-scss": "^13.1.0",
+    "typescript": "^5.6.3",
+    "vue-eslint-parser": "^9.4.3",
+    "vue-tsc": "^2.2.0"
+  },
+  "devDependencies": {
+    "@commitlint/config-conventional": "^19.6.0"
+  }
+}
