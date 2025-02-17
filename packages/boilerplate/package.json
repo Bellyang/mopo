@@ -24,7 +24,8 @@
   },
   "types": "./dist/cjs/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "engines": {
     "node": ">=v18.0.0"

@@ -16,7 +16,8 @@
   },
   "types": "./dist/cjs/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "dependencies": {
     "@babel/preset-env": "^7.25.4",

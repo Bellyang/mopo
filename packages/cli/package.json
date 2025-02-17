@@ -18,7 +18,8 @@
     "mopo": "./dist/cjs/mopo.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "engines": {
     "node": ">=18.0.0"
