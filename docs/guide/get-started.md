@@ -15,10 +15,6 @@ Install Mopo CLI globally using your preferred package manager:
 npm install -g @mopo/cli
 ```
 
-```bash [pnpm]
-pnpm add -g @mopo/cli
-```
-
 ```bash [yarn]
 yarn global add @mopo/cli
 ```
@@ -40,10 +36,6 @@ Update to the latest version:
 
 ```bash [npm]
 npm update -g @mopo/cli
-```
-
-```bash [pnpm]
-pnpm update -g @mopo/cli
 ```
 
 ```bash [yarn]

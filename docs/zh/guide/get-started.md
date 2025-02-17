@@ -15,10 +15,6 @@ Mopo 需要 Node 18+ 版本。我们建议使用 n、nvm、volta 或 fnm 等 Nod
 npm install -g @mopo/cli
 ```
 
-```bash [pnpm]
-pnpm add -g @mopo/cli
-```
-
 ```bash [yarn]
 yarn global add @mopo/cli
 ```
@@ -40,10 +36,6 @@ mopo -h  # 显示帮助
 
 ```bash [npm]
 npm update -g @mopo/cli
-```
-
-```bash [pnpm]
-pnpm update -g @mopo/cli
 ```
 
 ```bash [yarn]
