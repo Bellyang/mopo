@@ -26,15 +26,14 @@
   "dependencies": {
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.25.4",
-    "@mopo/settings": "workspace:*",
-    "@mopo/shared": "workspace:*",
-    "@mopo/vite-plugin-html": "workspace:*",
+    "@mopo/settings": "1.0.0",
+    "@mopo/shared": "1.0.0",
+    "@mopo/vite-plugin-html": "0.0.1",
     "@originjs/vite-plugin-commonjs": "^1.0.3",
     "@originjs/vite-plugin-require-context": "^1.0.9",
     "@rollup/plugin-babel": "^6.0.4",
     "@vitejs/plugin-legacy": "^6.0.0",
     "@vitejs/plugin-react": "^4.3.4",
-    "@vitejs/plugin-vue": "^5.2.1",
     "@vitejs/plugin-vue-jsx": "^4.1.1",
     "autoprefixer": "^10.4.20",
     "chalk": "^4.1.2",
@@ -60,6 +59,6 @@
     "vite-plugin-progress": "^0.0.7",
     "vite-plugin-resolve-extension-vue": "^0.1.0",
     "vite-plugin-svg-icons": "^2.0.1",
-    "@mopo/vite-plugin-vue2": "workspace:*"
+    "vite-plugin-vue2": "2.0.3"
   }
 }

@@ -13,7 +13,7 @@ export default (pkg: Package) => {
       use: [{
         loader: req.resolve(lib === 'vue2' ? 'vue-loader2' : 'vue-loader3'),
         options: {
-          compiler: lib === 'vue2' ? req('vue-template-compiler/build') : undefined,
+          compiler: lib === 'vue2' ? req('vue-template-compiler') : undefined,
         },
       }],
     },

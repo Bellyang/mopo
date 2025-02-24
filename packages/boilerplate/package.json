@@ -31,7 +31,7 @@
     "node": ">=v18.0.0"
   },
   "dependencies": {
-    "@mopo/shared": "workspace:*"
+    "@mopo/shared": "1.0.0"
   },
   "devDependencies": {}
 }
