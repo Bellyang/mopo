@@ -47,7 +47,7 @@ class EslintChecker extends Checker<'eslint'> {
           [
             '-c',
             eslint.configPath,
-            `"${dict.target(`"${path}/**/*.{js,ts,vue}"`)}"`,
+            `"${dict.target(`${path}/**/*.{js,ts,vue}`)}"`,
             '--resolve-plugins-relative-to',
             configPath.settings('./node_modules/'),
           ],
