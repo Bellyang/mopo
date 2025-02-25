@@ -611,9 +611,6 @@ importers:
       sass-loader:
         specifier: ^16.0.1
         version: 16.0.1(sass@1.78.0)(webpack@5.96.1(@swc/core@1.9.3)(esbuild@0.24.0))
-      sass-resources-loader:
-        specifier: ^2.2.5
-        version: 2.2.5
       speed-measure-webpack-plugin:
         specifier: ^1.5.0
         version: 1.5.0(webpack@5.96.1(@swc/core@1.9.3)(esbuild@0.24.0))
