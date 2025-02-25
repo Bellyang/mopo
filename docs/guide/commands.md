@@ -220,10 +220,13 @@ mopo release -d
 
 # Coordinated release of all projects
 mopo release -a
+
+# Coordinated release of all projects with same version
+mopo release -s
 ```
 
 Release workflow:
-1. Version bump with -a flag using [workspaces plugin](https://github.com/release-it-plugins/workspaces)
+1. Version bump with -s flag using [workspaces plugin](https://github.com/release-it-plugins/workspaces)
 2. CHANGELOG generation via [conventional-changelog](https://github.com/release-it/conventional-changelog)
 3. Dependency version synchronization
 4. Tagging and pushing changes

@@ -256,9 +256,11 @@ mopo release -n @yourOrg/pkgName
 mopo release -d
 # 或者 发布所有项目
 mopo release -a
+# 所有package以同一个版本发布
+mopo release -s
 ```
 
-这里的-a和上述说的-a有所不同，这里发布所有指的是所有项目共用一个版本号，使用的是[release-it-plugins/workspaces](https://github.com/release-it-plugins/workspaces)，作为发布工具，而其他发布都会根据入参，顺序发布，更新版本号及其依赖。
+这里的-s指的是所有项目共用一个版本号，使用的是[release-it-plugins/workspaces](https://github.com/release-it-plugins/workspaces)，作为发布工具，而其他发布都会根据入参，顺序发布，更新版本号及其依赖。
 
 发布的部分使用了release-it的两个插件:
 

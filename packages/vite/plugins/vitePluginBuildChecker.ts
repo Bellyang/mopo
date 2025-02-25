@@ -9,7 +9,7 @@ import { npmRunPathEnv } from 'npm-run-path'
 
 type BuildCheckBin = () => [string, ReadonlyArray<string>]
 interface ServeAndBuildChecker {
-  build: { buildBin: BuildCheckBin, buildFile?: string }
+  build: { buildBin: BuildCheckBin; buildFile?: string }
 }
 
 export interface BuildInCheckers {
@@ -24,17 +24,12 @@ interface CheckerMeta<T extends BuildInCheckerNames> {
   absFilePath: string
   build: ServeAndBuildChecker['build']
 }
-abstract class Checker<T extends BuildInCheckerNames>
-implements CheckerMeta<T> {
+abstract class Checker<T extends BuildInCheckerNames> implements CheckerMeta<T> {
   public name: T
   public absFilePath: string
   public build: ServeAndBuildChecker['build']
 
-  public constructor({
-    name,
-    absFilePath,
-    build,
-  }: CheckerMeta<T>) {
+  public constructor({ name, absFilePath, build }: CheckerMeta<T>) {
     this.name = name
     this.absFilePath = absFilePath
     this.build = build
@@ -52,7 +47,7 @@ class EslintChecker extends Checker<'eslint'> {
           [
             '-c',
             eslint.configPath,
-            dict.target(`${path}/**/*.{js,ts,vue}`),
+            `"${dict.target(`"${path}/**/*.{js,ts,vue}"`)}"`,
             '--resolve-plugins-relative-to',
             configPath.settings('./node_modules/'),
           ],
@@ -68,10 +63,7 @@ class VueTscChecker extends Checker<'vueTsc'> {
       name: 'vueTsc',
       absFilePath: __filename,
       build: {
-        buildBin: () => [
-          resolver.deps.vueTsc,
-          ['--noEmit', '-p', tsConfig],
-        ],
+        buildBin: () => [resolver.deps.vueTsc, ['--noEmit', '-p', tsConfig]],
       },
     })
   }
@@ -91,22 +83,25 @@ function spawnChecker(checker: ServeAndBuildChecker, process: NodeJS.Process) {
     proc.on('exit', (code) => {
       if (code !== null && code !== 0) {
         resolve(code)
-      }
-      else {
+      } else {
         resolve(0)
       }
     })
   })
 }
 
-async function checker({ path, lib }: { path: string, lib: Package['lib'] }, configs: TConfig['configs']): Promise<Plugin> {
+async function checker(
+  { path, lib }: { path: string; lib: Package['lib'] },
+  configs: TConfig['configs'],
+): Promise<Plugin> {
   const { typescript, eslint } = configs
   const tsConfig = await tsConfGenerator.generateTSConfig(path, typescript.configPath)
   let initialized = false
   let initializeCounter = 0
   let isProduction = false
   let buildWatch = false
-  const checkers: ServeAndBuildChecker[] = lib === 'react' ? [new EslintChecker(path, eslint)] : [new VueTscChecker(tsConfig), new EslintChecker(path, eslint)]
+  const checkers: ServeAndBuildChecker[] =
+    lib === 'react' ? [new EslintChecker(path, eslint)] : [new VueTscChecker(tsConfig), new EslintChecker(path, eslint)]
   const process = await import('node:process')
 
   return {
@@ -118,8 +113,7 @@ async function checker({ path, lib }: { path: string, lib: Package['lib'] }, con
     config: async () => {
       if (initializeCounter === 0) {
         initializeCounter++
-      }
-      else {
+      } else {
         initialized = true
       }
     },
@@ -128,13 +122,10 @@ async function checker({ path, lib }: { path: string, lib: Package['lib'] }, con
       buildWatch = !!config.build.watch
     },
     buildStart: async () => {
-      if (initialized || !isProduction)
-        return
+      if (initialized || !isProduction) return
 
-      const exitCodes = await Promise.all(
-        checkers.map(checker => spawnChecker(checker, process)),
-      )
-      const exitCode = exitCodes.find(code => code !== 0) ?? 0
+      const exitCodes = await Promise.all(checkers.map((checker) => spawnChecker(checker, process)))
+      const exitCode = exitCodes.find((code) => code !== 0) ?? 0
       // do not exit the process if run `vite build --watch`
       if (exitCode !== 0 && !buildWatch) {
         process.exit(exitCode)
@@ -143,6 +134,6 @@ async function checker({ path, lib }: { path: string, lib: Package['lib'] }, con
   }
 }
 
-export default async ({ path, lib }: { path: string, lib: Package['lib'] }, configs: TConfig['configs']) => [
+export default async ({ path, lib }: { path: string; lib: Package['lib'] }, configs: TConfig['configs']) => [
   await checker({ path, lib }, configs),
 ]
