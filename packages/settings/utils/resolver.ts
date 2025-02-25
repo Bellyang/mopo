@@ -1,26 +1,22 @@
 import { existsSync } from 'node:fs'
 import { createRequire } from 'node:module'
-import { dirname, join, resolve } from 'node:path'
+import { dirname, join } from 'node:path'
 import fse from 'fs-extra'
 
-function shared(name: string, opts: Record<string, any> = {}) {
-  const executable = opts.executable || name
-  return resolve(__dirname, `../../node_modules/.bin/${executable}`)
-}
+import { findBinByDirectory } from './findBinByDirectory'
+
 const requireResolver = require.main ? require.resolve : createRequire(import.meta.url).resolve
 const isWindows = process && (process.platform === 'win32' || /^(?:msys|cygwin)$/.test(process.env?.OSTYPE || ''))
 
 function splitPath(path: string) {
   const parts = path.split(/(\/|\\)/)
-  if (!parts.length)
-    return parts
+  if (!parts.length) return parts
   return !parts[0].length ? parts.slice(1) : parts
 }
 
 function findParentDir(currentFullPath: string, clue: string): string | null {
   const testDir = (parts: string[]): string | null => {
-    if (parts.length === 0)
-      return null
+    if (parts.length === 0) return null
 
     const p = parts.join('')
     const itdoes = existsSync(join(p, clue))
@@ -36,8 +32,8 @@ function requireResolve(name: string) {
   }
   try {
     return requireResolver(name, requireOpts)
-  }
-  catch (_err) {
+  } catch (_err) {
+    // eslint-disable-next-line
     const modJson = requireResolver(`${name}/package.json`, requireOpts)
     return dirname(modJson)
   }
@@ -46,7 +42,7 @@ function requireResolve(name: string) {
 export const req = require.main ? require : createRequire(import.meta.url)
 export const dep = (name: string) => requireResolver(name)
 
-export function bin(name: string, opts: Record<string, any> = {}): string {
+export function bin(name: string, opts: { executable?: string } = {}): string {
   const executable = opts.executable || name
 
   const mod = requireResolve(name)
@@ -57,13 +53,13 @@ export function bin(name: string, opts: Record<string, any> = {}): string {
   const binfield = pack.bin
 
   const binpath = typeof binfield === 'object' ? binfield[executable] : binfield
-  if (!binpath)
-    throw new Error(`No bin \`${executable}\` in module \`${name}\``)
+  if (!binpath) throw new Error(`No bin \`${executable}\` in module \`${name}\``)
 
   return join(dir, binpath)
 }
 
-const resolveBin = (name: string, opts: Record<string, any> = {}) => isWindows ? shared(name, opts) : bin(name, opts)
+const resolveBin = (name: string, opts: { executable?: string } = {}) =>
+  isWindows ? findBinByDirectory(name) : bin(name, opts)
 
 export const deps = {
   babel: '',
