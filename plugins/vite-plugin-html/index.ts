@@ -6,8 +6,6 @@ import { createMinifyHtmlPlugin } from './minifyHtml'
 
 consola.wrapConsole()
 
-export function createHtmlPlugin(
-  userOptions: UserOptions = {},
-): PluginOption[] {
+export function createHtmlPlugin(userOptions: UserOptions = {}): PluginOption[] {
   return [createPlugin(userOptions), createMinifyHtmlPlugin(userOptions)]
 }

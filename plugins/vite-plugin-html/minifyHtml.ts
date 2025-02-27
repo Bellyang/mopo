@@ -17,10 +17,7 @@ function getOptions(minify: boolean): MinifyOptions {
   }
 }
 
-export async function minifyHtml(
-  html: string,
-  minify: boolean | MinifyOptions,
-) {
+export async function minifyHtml(html: string, minify: boolean | MinifyOptions) {
   if (typeof minify === 'boolean' && !minify) {
     return html
   }
@@ -34,9 +31,7 @@ export async function minifyHtml(
   return await minifyFn(html, minifyOptions as MinifyOptions)
 }
 
-export function createMinifyHtmlPlugin({
-  minify = true,
-}: UserOptions = {}): PluginOption {
+export function createMinifyHtmlPlugin({ minify = true }: UserOptions = {}): PluginOption {
   return {
     name: 'vite:minify-html',
     // apply: 'build',
@@ -44,11 +39,7 @@ export function createMinifyHtmlPlugin({
     async generateBundle(_, outBundle) {
       if (minify) {
         for (const bundle of Object.values(outBundle)) {
-          if (
-            bundle.type === 'asset'
-            && htmlFilter(bundle.fileName)
-            && typeof bundle.source === 'string'
-          ) {
+          if (bundle.type === 'asset' && htmlFilter(bundle.fileName) && typeof bundle.source === 'string') {
             bundle.source = await minifyHtml(bundle.source, minify)
           }
         }

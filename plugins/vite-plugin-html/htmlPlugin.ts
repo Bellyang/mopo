@@ -22,15 +22,10 @@ function getViteMajorVersion() {
 }
 
 export function createPlugin(userOptions: UserOptions = {}): PluginOption {
-  const {
-    entry,
-    template = DEFAULT_TEMPLATE,
-    pages = [],
-    verbose = false,
-  } = userOptions
+  const { entry, template = DEFAULT_TEMPLATE, pages = [], verbose = false } = userOptions
 
   let viteConfig: ResolvedConfig
-  let env: Record<string, any> = {}
+  let env: Record<string, string | boolean | number | null> = {}
   const transformIndexHtmlHandler: IndexHtmlTransform = async (html, ctx) => {
     const url = ctx.filename
     const base = viteConfig.base
@@ -76,8 +71,8 @@ export function createPlugin(userOptions: UserOptions = {}): PluginOption {
     },
 
     configureServer(server) {
-      let _pages: { filename: string, template: string }[] = []
-      const rewrites: { from: RegExp, to: any }[] = []
+      let _pages: { filename: string; template: string }[] = []
+      const rewrites: { from: RegExp; to: (params: { parsedUrl: { path: string } }) => string }[] = []
       if (!isMpa(viteConfig)) {
         const template = userOptions.template || DEFAULT_TEMPLATE
         const filename = DEFAULT_TEMPLATE
@@ -85,8 +80,7 @@ export function createPlugin(userOptions: UserOptions = {}): PluginOption {
           filename,
           template,
         })
-      }
-      else {
+      } else {
         _pages = pages.map((page) => {
           return {
             filename: page.filename || DEFAULT_TEMPLATE,
@@ -98,12 +92,11 @@ export function createPlugin(userOptions: UserOptions = {}): PluginOption {
       const baseUrl = viteConfig.base ?? '/'
       const keys = Object.keys(proxy)
 
-      let indexPage: any = null
+      let indexPage: { filename: string; template: string } | null = null
       for (const page of _pages) {
         if (page.filename !== 'index.html') {
           rewrites.push(createRewire(page.template, page, baseUrl, keys))
-        }
-        else {
+        } else {
           indexPage = page
         }
       }
@@ -143,8 +136,7 @@ export function createPlugin(userOptions: UserOptions = {}): PluginOption {
             outputDirs.push(dir)
           }
         }
-      }
-      else {
+      } else {
         const dir = path.dirname(template)
         if (!ignoreDirs.includes(dir)) {
           outputDirs.push(dir)
@@ -152,12 +144,12 @@ export function createPlugin(userOptions: UserOptions = {}): PluginOption {
       }
       const cwd = path.resolve(viteConfig.root, viteConfig.build.outDir)
       const htmlFiles = await fg(
-        outputDirs.map(dir => `${dir}/*.html`),
+        outputDirs.map((dir) => `${dir}/*.html`),
         { cwd: path.resolve(cwd), absolute: true },
       )
 
       await Promise.all(
-        htmlFiles.map(file =>
+        htmlFiles.map((file) =>
           fs.move(file, path.resolve(cwd, path.basename(file)), {
             overwrite: true,
           }),
@@ -165,7 +157,7 @@ export function createPlugin(userOptions: UserOptions = {}): PluginOption {
       )
 
       const htmlDirs = await fg(
-        outputDirs.map(dir => dir),
+        outputDirs.map((dir) => dir),
         { cwd: path.resolve(cwd), onlyDirectories: true, absolute: true },
       )
       await Promise.all(
@@ -180,34 +172,26 @@ export function createPlugin(userOptions: UserOptions = {}): PluginOption {
   }
 }
 
-export function createInput(
-  { pages = [], template = DEFAULT_TEMPLATE }: UserOptions,
-  viteConfig: ResolvedConfig,
-) {
+export function createInput({ pages = [], template = DEFAULT_TEMPLATE }: UserOptions, viteConfig: ResolvedConfig) {
   const input: Record<string, string> = {}
   if (isMpa(viteConfig) || pages?.length) {
-    const templates = pages.map(page => page.template)
+    const templates = pages.map((page) => page.template)
     templates.forEach((temp) => {
       let dirName = path.dirname(temp)
       const file = path.basename(temp)
 
       dirName = dirName.replace(/\s+/g, '').replace(/\//g, '-')
 
-      const key
-        = dirName === '.' || dirName === 'public' || !dirName
-          ? file.replace(/\.html/, '')
-          : dirName
+      const key = dirName === '.' || dirName === 'public' || !dirName ? file.replace(/\.html/, '') : dirName
       input[key] = path.resolve(viteConfig.root, temp)
     })
 
     return input
-  }
-  else {
+  } else {
     const dir = path.dirname(template)
     if (ignoreDirs.includes(dir)) {
       return undefined
-    }
-    else {
+    } else {
       const file = path.basename(template)
       const key = file.replace(/\.html/, '')
       return {
@@ -222,7 +206,7 @@ export async function renderHtml(
   config: {
     injectOptions: InjectOptions
     viteConfig: ResolvedConfig
-    env: Record<string, any>
+    env: Record<string, string | boolean | number | null>
     entry?: string
     verbose?: boolean
   },
@@ -230,7 +214,7 @@ export async function renderHtml(
   const { injectOptions, viteConfig, env, entry, verbose } = config
   const { data, ejsOptions } = injectOptions
 
-  const ejsData: Record<string, any> = {
+  const ejsData: Record<string, string | boolean | number | null | undefined> = {
     ...(viteConfig?.env ?? {}),
     ...(viteConfig?.define ?? {}),
     ...(env || {}),
@@ -240,12 +224,7 @@ export async function renderHtml(
 
   if (entry) {
     result = removeEntryScript(result, verbose)
-    result = result.replace(
-      bodyInjectRE,
-      `<script type="module" src="${normalizePath(
-        `${entry}`,
-      )}"></script>\n</body>`,
-    )
+    result = result.replace(bodyInjectRE, `<script type="module" src="${normalizePath(`${entry}`)}"></script>\n</body>`)
   }
   return result
 }
@@ -258,8 +237,7 @@ export function getPage(
   let page: PageOption
   if (isMpa(viteConfig) || pages?.length) {
     page = getPageConfig(name, pages, DEFAULT_TEMPLATE)
-  }
-  else {
+  } else {
     page = createSpaPage(entry, template, inject)
   }
   return page
@@ -282,20 +260,17 @@ export function removeEntryScript(html: string, verbose = false) {
     removedNode.push(item.toString())
     item.parentNode.removeChild(item)
   })
-  verbose
-  && removedNode.length
-  && consola.warn(`vite-plugin-html: Since you have already configured entry, ${dim(
-    removedNode.toString(),
-  )} is deleted. You may also delete it from the index.html.
-        `)
+  if (verbose && removedNode.length) {
+    consola.warn(
+      `vite-plugin-html: Since you have already configured entry, ${dim(
+        removedNode.toString(),
+      )} is deleted. You may also delete it from the index.html.`,
+    )
+  }
   return root.toString()
 }
 
-export function createSpaPage(
-  entry: string | undefined,
-  template: string,
-  inject: InjectOptions = {},
-): PageOption {
+export function createSpaPage(entry: string | undefined, template: string, inject: InjectOptions = {}): PageOption {
   return {
     entry,
     filename: 'index.html',
@@ -304,11 +279,7 @@ export function createSpaPage(
   }
 }
 
-export function getPageConfig(
-  htmlName: string,
-  pages: Pages,
-  defaultPage: string,
-): PageOption {
+export function getPageConfig(htmlName: string, pages: Pages, defaultPage: string): PageOption {
   const defaultPageOption: PageOption = {
     filename: defaultPage,
     template: `./${defaultPage}`,
@@ -337,15 +308,10 @@ export async function readHtml(path: string) {
   if (!fs.pathExistsSync(path)) {
     throw new Error(`html is not exist in ${path}`)
   }
-  return await fs.readFile(path).then(buffer => buffer.toString())
+  return await fs.readFile(path).then((buffer) => buffer.toString())
 }
 
-function createRewire(
-  reg: string,
-  page: any,
-  baseUrl: string,
-  proxyUrlKeys: string[],
-) {
+function createRewire(reg: string, page: PageOption, baseUrl: string, proxyUrlKeys: string[]) {
   const regWithBase = path.join(baseUrl, reg)
   return {
     from: new RegExp(`^/${reg}*|^${regWithBase}*`),
@@ -354,17 +320,11 @@ function createRewire(
       const excludeBaseUrl = pathname.replace(baseUrl, '/')
       const template = path.resolve(baseUrl, page.template)
 
-      if (excludeBaseUrl.startsWith('/static'))
-        return excludeBaseUrl
+      if (excludeBaseUrl.startsWith('/static')) return excludeBaseUrl
 
-      if (excludeBaseUrl === '/')
-        return template
+      if (excludeBaseUrl === '/') return template
 
-      return proxyUrlKeys.some(item =>
-        pathname.startsWith(path.resolve(baseUrl, item)),
-      )
-        ? parsedUrl.path
-        : template
+      return proxyUrlKeys.some((item) => pathname.startsWith(path.resolve(baseUrl, item))) ? parsedUrl.path : template
     },
   }
 }

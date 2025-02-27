@@ -3,15 +3,10 @@ import { expand } from 'dotenv-expand'
 import fse from 'fs-extra'
 import { dirname, join } from 'pathe'
 
-export function loadEnv(
-  mode: string,
-  envDir: string,
-  prefix = '',
-): Record<string, string> {
+export function loadEnv(mode: string, envDir: string, prefix = ''): Record<string, string> {
   if (mode === 'local') {
     throw new Error(
-      `"local" cannot be used as a mode name because it conflicts with `
-      + `the .local postfix for .env files.`,
+      `"local" cannot be used as a mode name because it conflicts with ` + `the .local postfix for .env files.`,
     )
   }
 
@@ -39,8 +34,7 @@ export function loadEnv(
       for (const [key, value] of Object.entries(parsed)) {
         if (key.startsWith(prefix) && env[key] === undefined) {
           env[key] = value
-        }
-        else if (key === 'NODE_ENV') {
+        } else if (key === 'NODE_ENV') {
           // NODE_ENV override in .env file
           process.env.VITE_USER_NODE_ENV = value
         }
@@ -51,11 +45,7 @@ export function loadEnv(
   return env
 }
 
-export function lookupFile(
-  dir: string,
-  formats: string[],
-  pathOnly = false,
-): string | undefined {
+export function lookupFile(dir: string, formats: string[], pathOnly = false): string | undefined {
   for (const format of formats) {
     const fullPath = join(dir, format)
     if (fse.pathExistsSync(fullPath) && fse.statSync(fullPath).isFile()) {
