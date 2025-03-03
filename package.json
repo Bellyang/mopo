@@ -1,7 +1,6 @@
 {
   "private": true,
   "packageManager": "pnpm@9.9.0",
-  "version": "1.0.1",
   "description": "Monorepo base, highly customizable, suitable for the entire process of creating, developing, testing, and deploying cli tools.",
   "author": "BellYang <blackstonelian@gmail.com> (https://github.com/Bellyang)",
   "repository": {

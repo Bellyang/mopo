@@ -1,6 +1,6 @@
 {
   "name": "@mopo/settings",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Configuration Management Module",
   "author": "BellYang <blackstonelian@gmail.com> (https://github.com/Bellyang)",
   "license": "MIT",
@@ -23,7 +23,7 @@
     "@babel/preset-env": "^7.25.4",
     "@babel/preset-react": "^7.26.3",
     "@commitlint/cli": "^19.6.0",
-    "@mopo/shared": "1.0.1",
+    "@mopo/shared": "1.0.0",
     "@release-it-plugins/workspaces": "^4.2.0",
     "@release-it/conventional-changelog": "^9.0.3",
     "@typescript-eslint/eslint-plugin": "^8.15.0",

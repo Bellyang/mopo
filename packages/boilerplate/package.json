@@ -1,6 +1,6 @@
 {
   "name": "@mopo/boilerplate",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Library or framework boilerplate for monorepo",
   "author": "BellYang <blackstonelian@gmail.com> (https://github.com/Bellyang)",
   "license": "MIT",
@@ -31,7 +31,7 @@
     "node": ">=v18.0.0"
   },
   "dependencies": {
-    "@mopo/shared": "1.0.1"
+    "@mopo/shared": "1.0.0"
   },
   "devDependencies": {}
 }
