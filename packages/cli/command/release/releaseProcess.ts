@@ -36,7 +36,10 @@ function extendOpts(name: string, baseOpts: Execa.Options) {
 
 export async function releaseSameVer(path: string, releaseIt: TConfig['configs']['releaseIt'], baseOptions: Options) {
   const { configPath } = releaseIt
-  const options = extendOptions([configPath], baseOptions)
+  const options = extendOptions([
+    configPath,
+    '--no-npm'
+  ], baseOptions)
   const opts = extendOpts('overall', {})
   await command(path, releaseIt, options, opts)
 }
