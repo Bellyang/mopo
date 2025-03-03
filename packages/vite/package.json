@@ -28,7 +28,7 @@
     "@babel/preset-env": "^7.25.4",
     "@mopo/settings": "1.0.0",
     "@mopo/shared": "1.0.0",
-    "@mopo/vite-plugin-html": "1.0.0",
+    "@mopo/vite-plugin-html": "0.0.1",
     "@originjs/vite-plugin-commonjs": "^1.0.3",
     "@originjs/vite-plugin-require-context": "^1.0.9",
     "@rollup/plugin-babel": "^6.0.4",
