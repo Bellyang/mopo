@@ -1,6 +1,6 @@
 {
   "name": "@mopo/vite",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "vite bundler for Mopo",
   "author": "BellYang <blackstonelian@gmail.com> (https://github.com/Bellyang)",
   "license": "MIT",
@@ -26,9 +26,9 @@
   "dependencies": {
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.25.4",
-    "@mopo/settings": "1.0.0",
-    "@mopo/shared": "1.0.0",
-    "@mopo/vite-plugin-html": "0.0.1",
+    "@mopo/settings": "1.0.1",
+    "@mopo/shared": "1.0.1",
+    "@mopo/vite-plugin-html": "1.0.1",
     "@originjs/vite-plugin-commonjs": "^1.0.3",
     "@originjs/vite-plugin-require-context": "^1.0.9",
     "@rollup/plugin-babel": "^6.0.4",
