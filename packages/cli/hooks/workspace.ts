@@ -47,7 +47,7 @@ async function packagesFilter(
     if (!currentPackage.length) throw new Error(logger.PACKAGE_MISSING)
     return currentPackage
   }
-
+  // When using release to publish a unified version, no need to consider packages
   if (all || sameVersion) return packages
 
   if (diff) {
